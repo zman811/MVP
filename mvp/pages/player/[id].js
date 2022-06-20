@@ -35,10 +35,10 @@ export async function getServerSideProps(context) {
     const mastery = await axios.get(
       `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${data.id}?api_key=${process.env.RIOTKEY}`
     );
-    console.log(mastery.data);
+    console.log(mastery.data.slice(0, 3));
     // TODO make the request and pass it in as props, also i think i will query the database for champs here ? and pass that in as props or some form of it
     return {
-      props: { summonerData: data, masteryData: mastery.data },
+      props: { summonerData: data, masteryData: mastery.data.slice(0, 10) },
     };
   } catch (err) {
     console.log(err);
