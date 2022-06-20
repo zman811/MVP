@@ -6,18 +6,23 @@ import { useState } from "react";
 export default function Home() {
   const router = useRouter();
   const [username, setUsername] = useState("");
+  const [nameErr, setNameErr] = useState(false);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
+    if (nameErr) {
+      setNameErr(false);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(username);
-    if(username.length < 1) {
-      //TODO add in error handleing
+    if (username.length < 1) {
+      setNameErr(true);
+    } else {
+      router.push(`/player/${username}`);
     }
-    router.push(`/player/${username}`)
   };
   return (
     <div className={styles.center}>
@@ -43,6 +48,9 @@ export default function Home() {
           />
         </label>
         <input type="submit" className="outline" value="Go!" />
+        {nameErr && (
+          <small className={styles.red}>Error with name, try again</small>
+        )}
       </form>
     </div>
   );
@@ -50,6 +58,6 @@ export default function Home() {
 
 export async function getStaticProps(context) {
   return {
-    props: {}
-  }
+    props: {},
+  };
 }

@@ -1,13 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../../styles/Home.module.css";
+import axios from "axios";
 import { useState } from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
-export default function Id({test}) {
-  const router = useRouter()
-  const { pid } = router.query
-  console.log(test)
+export default function Id({ summonerData, masteryData }) {
+  console.log(summonerData);
   return (
     <div className={styles.center}>
       <Head>
@@ -18,7 +17,9 @@ export default function Id({test}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Link href="/">
-        <a href="#" role="button">Go Back</a>
+        <a href="#" role="button">
+          Go Back
+        </a>
       </Link>
       hello!
     </div>
@@ -26,9 +27,23 @@ export default function Id({test}) {
 }
 
 export async function getServerSideProps(context) {
-  const id = context.query.id
-  // TODO make the request and pass it in as props, also i think i will query the database for champs here ? and pass that in as props or some form of it
-  return {
-    props: {test: 'context'}
+  try {
+    const summonerName = context.query.id;
+    const { data } = await axios.get(
+      `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${process.env.RIOTKEY}`
+    );
+    const mastery = await axios.get(
+      `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${data.id}?api_key=${process.env.RIOTKEY}`
+    );
+    console.log(mastery.data);
+    // TODO make the request and pass it in as props, also i think i will query the database for champs here ? and pass that in as props or some form of it
+    return {
+      props: { summonerData: data, masteryData: mastery.data },
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      props: { test: "err" },
+    };
   }
 }
