@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/champ");
+mongoose.connect(process.env.MONGODB);
 
-const db = mongoose.connection;
+let champSchema = mongoose.Schema({});
 
-const champSchema = mongoose.Schema({});
-
-const Champ = mongoose.model("Champ", champSchema);
-
-module.exports = Champ;
+module.exports = mongoose.models.Champ || mongoose.model("Champ", champSchema);

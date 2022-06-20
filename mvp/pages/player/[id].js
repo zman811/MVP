@@ -35,7 +35,10 @@ export async function getServerSideProps(context) {
     const mastery = await axios.get(
       `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${data.id}?api_key=${process.env.RIOTKEY}`
     );
-    console.log(mastery.data.slice(0, 3));
+    // console.log(mastery.data.slice(0, 3));
+    // ? Can i make this reqest somewhere else to try and avoid needing to make it everytime?
+    // const champData = await axios.get('http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion.json')
+    // console.log(Object.values(champData.data.data)[0])
     // TODO make the request and pass it in as props, also i think i will query the database for champs here ? and pass that in as props or some form of it
     return {
       props: { summonerData: data, masteryData: mastery.data.slice(0, 10) },

@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
+import axios from 'axios'
 import { useState } from "react";
 
 export default function Home() {
@@ -57,7 +58,15 @@ export default function Home() {
 }
 
 export async function getStaticProps(context) {
+  // TODO format data and add it to the database/update it
+  const db = require('../util/mongodb.js')
+  const champData = await axios.get(
+    "http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion.json"
+  );
+  const res = await db.find()
+  console.log(res);
   return {
     props: {},
+    revalidate: 86400,
   };
 }
