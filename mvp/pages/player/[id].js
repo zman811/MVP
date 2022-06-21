@@ -12,7 +12,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   const [button1, setButton1] = useState("");
   const [button2, setButton2] = useState("");
   const [userAccount, setUserAccount] = useState(null);
-  const router = useRouter()
+  const router = useRouter();
   if (error) {
     return (
       <div className={styles.center}>
@@ -42,7 +42,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         onInit={(typewriter) => {
           typewriter
             .typeString(
-              `They would play a lot of ${masteryData[2].name} right? yeah`
+              `Sure glad its not, they like to play ${masteryData[2].name}`
             )
             .callFunction(() => setCount(5))
             .start();
@@ -55,7 +55,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         options={{ cursor: "" }}
         onInit={(typewriter) => {
           typewriter
-            .typeString(`Oh... you would play a lot of ${masteryData[2].name}`)
+            .typeString(`So you like to play ${masteryData[2].name} I see`)
             .callFunction(() => setCount(5))
             .start();
         }}
@@ -141,13 +141,14 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       </Link>
       hello!
       <br />
+      {router.query.id}, {masteryData[0].title}
       <Typewriter
         options={{ cursor: "" }}
         onInit={(typewriter) => {
           typewriter
-            .typeString(`Let's see what we have`)
+            .typeString(`Who do you like to play?`)
             .pauseFor(500)
-            .typeString(` played a lot of ${masteryData[0].name}`)
+            .typeString(` a lot of ${masteryData[0].name} it looks like`)
             .callFunction(() => setCount(count + 1))
             .start();
         }}
@@ -210,7 +211,11 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       )}
       {count > 3 && isUserAccount}
       {count > 4 && rankedInfo}
-      {count > 5 && (<Link href={`/stats/${router.query.id}`}><button>Go to stats</button></Link>)}
+      {count > 5 && (
+        <Link href={`/stats/${router.query.id}`}>
+          <button>Go to stats</button>
+        </Link>
+      )}
     </div>
   );
 }
