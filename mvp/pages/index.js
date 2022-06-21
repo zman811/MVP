@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useState } from "react";
+import Typewriter from "typewriter-effect";
 
 export default function Home() {
   const router = useRouter();
@@ -35,6 +36,29 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h3>
+        <Typewriter
+          options={{ cursor: "" }}
+          onInit={(typewriter) => {
+            typewriter
+              .typeString("Hello!")
+              .pauseFor(1000)
+              .callFunction((t) => {
+                t.elements.cursor.hidden = true;
+              })
+              .start();
+          }}
+        />
+        <Typewriter
+          options={{
+            cursor: "",
+          }}
+          onInit={(typewriter) => {
+            typewriter
+              .pauseFor(1200)
+              .typeString("Please enter a name below")
+              .start();
+          }}
+        />
         Welcome to league rating <br />
         <br /> Please enter a username below:
       </h3>
@@ -58,7 +82,7 @@ export default function Home() {
 }
 
 export async function getStaticProps(context) {
-// ? i can pull more data from the api to add the database later if i need it
+  // ? i can pull more data from the api to add the database later if i need it
   try {
     const db = require("../util/mongodb.js");
     const version = await axios.get(
