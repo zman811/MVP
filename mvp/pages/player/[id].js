@@ -6,7 +6,27 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Typewriter from "typewriter-effect";
 
-export default function Id({ summonerData, masteryData, rank }) {
+export default function Id({ summonerData, masteryData, rank, error }) {
+  const router = useRouter()
+  if (error) {
+    return (
+      <div className={styles.center}>
+        <Head>
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+          />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <h2>There was a Error finding that account, try again</h2>
+        <Link href="/">
+          <a href="#" role="button">
+            Go Back
+          </a>
+        </Link>
+      </div>
+    );
+  }
   const [count, setCount] = useState(0);
   const [disabled, setDisabled] = useState(false);
   const [button1, setButton1] = useState("");
@@ -43,58 +63,66 @@ export default function Id({ summonerData, masteryData, rank }) {
     );
   }
   let rankedInfo = "";
-  if (rank.rank.includes("IRON")) {
-    rankedInfo = (
-      <Typewriter
-        options={{ cursor: "" }}
-        onInit={(typewriter) => {
-          typewriter
-            .typeString(`Wow iron? must be a smurf.. right?`)
-            .callFunction(() => setCount(6))
-            .start();
-        }}
-      />
-    );
-  } else if (
-    rank.rank.includes("BRONZE") ||
-    rank.rank.includes("SILVER") ||
-    rank.rank.includes("GOLD")
-  ) {
-    rankedInfo = (
-      <Typewriter
-        options={{ cursor: "" }}
-        onInit={(typewriter) => {
-          typewriter
-            .typeString(`I mean, ${rank.rank.toLowerCase()} is in the average right?`)
-            .callFunction(() => setCount(6))
-            .start();
-        }}
-      />
-    );
-  } else if (rank.rank === 'PLATINUM' || rank.rank === 'DIAMOND' || rank.rank === 'MASTER') {
-    rankedInfo = (
-      <Typewriter
-        options={{ cursor: "" }}
-        onInit={(typewriter) => {
-          typewriter
-            .typeString(`your ${rank.rank.toLowerCase()}? that's not bad`)
-            .callFunction(() => setCount(6))
-            .start();
-        }}
-      />
-    );
-  } else if (rank.rank === 'GRANDMASTER' || rank.rank === 'CHALLENGER') {
-    rankedInfo = (
-      <Typewriter
-        options={{ cursor: "" }}
-        onInit={(typewriter) => {
-          typewriter
-            .typeString(`A ${rank.rank.toLowerCase()}?? must be pretty good`)
-            .callFunction(() => setCount(6))
-            .start();
-        }}
-      />
-    );
+  if (rank.rank) {
+    if (rank.rank.includes("IRON")) {
+      rankedInfo = (
+        <Typewriter
+          options={{ cursor: "" }}
+          onInit={(typewriter) => {
+            typewriter
+              .typeString(`Wow iron? must be a smurf.. right?`)
+              .callFunction(() => setCount(6))
+              .start();
+          }}
+        />
+      );
+    } else if (
+      rank.rank.includes("BRONZE") ||
+      rank.rank.includes("SILVER") ||
+      rank.rank.includes("GOLD")
+    ) {
+      rankedInfo = (
+        <Typewriter
+          options={{ cursor: "" }}
+          onInit={(typewriter) => {
+            typewriter
+              .typeString(
+                `I mean, ${rank.rank.toLowerCase()} is in the average right?`
+              )
+              .callFunction(() => setCount(6))
+              .start();
+          }}
+        />
+      );
+    } else if (
+      rank.rank === "PLATINUM" ||
+      rank.rank === "DIAMOND" ||
+      rank.rank === "MASTER"
+    ) {
+      rankedInfo = (
+        <Typewriter
+          options={{ cursor: "" }}
+          onInit={(typewriter) => {
+            typewriter
+              .typeString(`your ${rank.rank.toLowerCase()}? that's not bad`)
+              .callFunction(() => setCount(6))
+              .start();
+          }}
+        />
+      );
+    } else if (rank.rank === "GRANDMASTER" || rank.rank === "CHALLENGER") {
+      rankedInfo = (
+        <Typewriter
+          options={{ cursor: "" }}
+          onInit={(typewriter) => {
+            typewriter
+              .typeString(`A ${rank.rank.toLowerCase()}?? must be pretty good`)
+              .callFunction(() => setCount(6))
+              .start();
+          }}
+        />
+      );
+    }
   }
 
   return (
@@ -182,6 +210,7 @@ export default function Id({ summonerData, masteryData, rank }) {
       )}
       {count > 3 && isUserAccount}
       {count > 4 && rankedInfo}
+      {count > 5 && (<Link href={`/stats/${router.query.id}`}><button>Go to stats</button></Link>)}
     </div>
   );
 }
@@ -199,13 +228,20 @@ export async function getServerSideProps(context) {
     const rank = await axios.get(
       `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${data.id}?api_key=${process.env.RIOTKEY}`
     );
-    const rankData = {
-      rank: rank.data[0].tier,
-      div: rank.data[0].rank,
-      winRate: Math.floor(
-        (+rank.data[0].wins / (+rank.data[0].wins + rank.data[0].losses)) * 100
-      ),
-    };
+    let rankData;
+    if (rank.data.length < 1) {
+      rankData = {};
+    } else {
+      console.log("HERE");
+      rankData = {
+        rank: rank.data[0].tier,
+        div: rank.data[0].rank,
+        winRate: Math.floor(
+          (+rank.data[0].wins / (+rank.data[0].wins + rank.data[0].losses)) *
+            100
+        ),
+      };
+    }
     let masteries = [];
     for (let i = 0; i < 3; i++) {
       let [temp] = await db.find({
@@ -226,7 +262,7 @@ export async function getServerSideProps(context) {
   } catch (err) {
     console.log(err);
     return {
-      props: { test: "err" },
+      props: { error: true },
     };
   }
 }
