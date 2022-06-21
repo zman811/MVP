@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 export default function Id({ summonerData, masteryData }) {
-  console.log(summonerData);
   return (
     <div className={styles.center}>
       <Head>
@@ -22,11 +21,14 @@ export default function Id({ summonerData, masteryData }) {
         </a>
       </Link>
       hello!
+      <br/>
+      Top played champs, {masteryData[0].name}, {masteryData[1].name}, {masteryData[2].name}
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
+  const db = require("../../util/mongodb.js");
   try {
     const summonerName = context.query.id;
     const { data } = await axios.get(
@@ -35,13 +37,17 @@ export async function getServerSideProps(context) {
     const mastery = await axios.get(
       `https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${data.id}?api_key=${process.env.RIOTKEY}`
     );
-    // console.log(mastery.data.slice(0, 3));
-    // ? Can i make this reqest somewhere else to try and avoid needing to make it everytime?
-    // const champData = await axios.get('http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion.json')
-    // console.log(Object.values(champData.data.data)[0])
+    let masteries = [];
+    for (let i = 0; i < 3; i++) {
+      let [temp] = await db.find({
+        key: Object.values(mastery.data)[i].championId,
+      });
+      const temp2 = {name: temp.name, title: temp.title, key: temp.key, points: Object.values(mastery.data)[i].championPoints }
+      masteries.push(temp2);
+    }
     // TODO make the request and pass it in as props, also i think i will query the database for champs here ? and pass that in as props or some form of it
     return {
-      props: { summonerData: data, masteryData: mastery.data.slice(0, 10) },
+      props: { summonerData: data, masteryData: masteries },
     };
   } catch (err) {
     console.log(err);
