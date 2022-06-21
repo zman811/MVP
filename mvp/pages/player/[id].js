@@ -7,6 +7,11 @@ import { useRouter } from "next/router";
 import Typewriter from "typewriter-effect";
 
 export default function Id({ summonerData, masteryData, rank, error }) {
+  const [count, setCount] = useState(0);
+  const [disabled, setDisabled] = useState(false);
+  const [button1, setButton1] = useState("");
+  const [button2, setButton2] = useState("");
+  const [userAccount, setUserAccount] = useState(null);
   const router = useRouter()
   if (error) {
     return (
@@ -27,11 +32,6 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       </div>
     );
   }
-  const [count, setCount] = useState(0);
-  const [disabled, setDisabled] = useState(false);
-  const [button1, setButton1] = useState("");
-  const [button2, setButton2] = useState("");
-  const [userAccount, setUserAccount] = useState(null);
   let isUserAccount;
   if (userAccount === null) {
     isUserAccount = "";
