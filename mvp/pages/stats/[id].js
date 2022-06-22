@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
@@ -12,13 +11,6 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
   if (error) {
     return (
       <div className={styles.center}>
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
-          />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
         <h2>There was a Error finding that account, try again</h2>
         <Link href="/">
           <a href="#" className="outline" role="button">
