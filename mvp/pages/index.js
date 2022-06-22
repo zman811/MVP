@@ -10,6 +10,7 @@ export default function Home({ freeChamps }) {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [nameErr, setNameErr] = useState(false);
+  const [count, setCount] = useState(0);
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -28,14 +29,14 @@ export default function Home({ freeChamps }) {
     }
   };
   return (
-    <div className={styles.center}>
+    <div className="container" style={{textAlign: 'center'}}>
       <Head>
         <title>Home Page</title>
       </Head>
       <h2>
         <br />
         <details>
-          <summary role="button">Current Free Champs</summary>
+          <summary style={{textAlign: 'center'}} role="button">Current Free Champs</summary>
           <div>
             {freeChamps.map((champ, i) => (
               <a
@@ -66,30 +67,28 @@ export default function Home({ freeChamps }) {
               .callFunction((t) => {
                 t.elements.cursor.hidden = true;
               })
-              .pauseFor(1000)
+              .pauseFor(750)
+              .callFunction(() => setCount(1))
               .start();
           }}
         />
-        <Typewriter
-          options={{ delay: 80 }}
-          onInit={(typewriter) => {
-            typewriter
-              .callFunction((t) => {
-                t.elements.cursor.hidden = true;
-              })
-              .pauseFor(3000)
-              .callFunction((t) => {
-                t.elements.cursor.hidden = false;
-              })
-              .typeString("Please enter a username below:")
-              .callFunction((t) => {
-                t.elements.cursor.hidden = true;
-              })
-              .start();
-          }}
-        />
+
+        {count > 0 && (
+          <Typewriter
+            options={{ delay: 80 }}
+            onInit={(typewriter) => {
+              typewriter
+                .typeString("Please enter a username below:")
+                .callFunction((t) => {
+                  t.elements.cursor.hidden = true;
+                })
+                .start();
+            }}
+          />
+        )}
       </h3>
       <form onSubmit={handleSubmit}>
+        {/* //TODO Could add in a typewriter placeholder? */}
         <label htmlFor="username">
           <input
             type="text"

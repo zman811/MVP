@@ -37,47 +37,35 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
           </a>
         </Link>
       </div>
-      <div className={styles.center}>
+      <div className="container" style={{ textAlign: "center" }}>
         <h3>
           Rank: {rank.rank.toLowerCase()} {rank.div}
         </h3>
-        <div>
-          Most played champs,
+        <h4>
+          Top 3 Played Champs,
           <div>
-            {masteryData[0].name}
-            <Image
-              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[0].imgId
-                .split(" ")
-                .join("")}.png`}
-              alt={`${masteryData[0].name} Icon`}
-              height={75}
-              width={75}
-            />
+            {[...Array(3)].map((_, i) => (
+              <a
+                href="#"
+                key={masteryData[i].name}
+                style={{ margin: "0.4em" }}
+                data-tooltip={masteryData[i].name}
+              >
+                <Image
+                  src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[
+                    i
+                  ].imgId
+                    .split(" ")
+                    .join("")}.png`}
+                  alt={`${masteryData[i].name} Icon`}
+                  height={75}
+                  width={75}
+                />
+              </a>
+            ))}
           </div>
-          <div>
-            {masteryData[1].name}
-            <Image
-              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[1].imgId
-                .split(" ")
-                .join("")}.png`}
-              alt={`${masteryData[1].name} Icon`}
-              height={75}
-              width={75}
-            />
-          </div>
-          <div>
-            {masteryData[2].name}
-            <Image
-              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[2].imgId
-                .split(" ")
-                .join("")}.png`}
-              alt={`${masteryData[2].name} Icon`}
-              height={75}
-              width={75}
-            />
-          </div>
-        </div>
-        {rank.winRate && <div>Comp win rate is {rank.winRate}%</div>}
+        </h4>
+        {rank.winRate && <h4>Comp win rate is {rank.winRate}%</h4>}
       </div>
     </div>
   );

@@ -26,6 +26,10 @@
   margin: 0.5em;
 }
 
+.smallWidth {
+  width: 50%;
+}
+
 .right {
   margin-top: 1em;
   margin-right: 1em;

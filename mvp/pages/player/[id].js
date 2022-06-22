@@ -42,7 +42,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
             )
             .pauseFor(750)
             .callFunction((t) => {
-              setCount(5);
+              setCount(count + 1);
               t.elements.cursor.hidden = true;
             })
             .start();
@@ -59,7 +59,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               .typeString(`So you like to play ${masteryData[2].name} I see`)
               .pauseFor(750)
               .callFunction((t) => {
-                setCount(5);
+                setCount(count + 1);
                 t.elements.cursor.hidden = true;
               })
               .start();
@@ -79,7 +79,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               .typeString(`Unranked I see`)
               .pauseFor(750)
               .callFunction((t) => {
-                setCount(6);
+                setCount(count + 1);
                 t.elements.cursor.hidden = true;
               })
               .start();
@@ -96,7 +96,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               .typeString(`Wow iron? must be a smurf.. right?`)
               .pauseFor(750)
               .callFunction((t) => {
-                setCount(6);
+                setCount(count + 1);
                 t.elements.cursor.hidden = true;
               })
               .start();
@@ -118,7 +118,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               )
               .pauseFor(750)
               .callFunction((t) => {
-                setCount(6);
+                setCount(count + 1);
                 t.elements.cursor.hidden = true;
               })
               .start();
@@ -138,7 +138,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               .typeString(`your ${rank.rank.toLowerCase()}? that's not bad`)
               .pauseFor(750)
               .callFunction((t) => {
-                setCount(6);
+                setCount(count + 1);
                 t.elements.cursor.hidden = true;
               })
               .start();
@@ -154,7 +154,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               .typeString(`A ${rank.rank.toLowerCase()}?? must be pretty good`)
               .pauseFor(750)
               .callFunction((t) => {
-                setCount(6);
+                setCount(Count + 1);
                 t.elements.cursor.hidden = true;
               })
               .start();
@@ -166,7 +166,9 @@ export default function Id({ summonerData, masteryData, rank, error }) {
 
   return (
     <div>
-      <Head><title>{router.query.id}s page</title></Head>
+      <Head>
+        <title>Page</title>
+      </Head>
       <div className={styles.right}>
         <Link href="/">
           <a href="#" className="outline" role="button">
@@ -174,40 +176,45 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           </a>
         </Link>
       </div>
-      <div className={styles.center}>
+      <div className="container" style={{ textAlign: "center" }}>
         <h3>
-          {router.query.id}, {masteryData[0].title}
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 80 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .pauseFor(1000)
+                  .typeString(`${router.query.id}, `)
+                  .pauseFor(750)
+                  .typeString(` ${masteryData[1].title}`)
+                  .pauseFor(1000)
+                  .deleteChars(masteryData[1].title.length)
+                  .pauseFor(1000)
+                  .typeString(masteryData[0].title)
+                  .pauseFor(1000)
+                  .callFunction((t) => {
+                    setCount(count + 1);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
         </h3>
       </div>
-      <div className={styles.center}>
-        <div className={styles.typing}>
-          <Typewriter
-            options={{ delay: 80 }}
-            onInit={(typewriter) => {
-              typewriter
-                .pauseFor(1000)
-                .typeString(`Who do you like to play?`)
-                .pauseFor(750)
-                .typeString(` a lot of ${masteryData[0].name} it looks like`)
-                .pauseFor(750)
-                .callFunction((t) => {
-                  setCount(count + 1);
-                  t.elements.cursor.hidden = true;
-                })
-                .start();
-            }}
-          />
-        </div>
+      <div className="container" style={{ textAlign: "center" }}>
         {count > 0 && (
           <div className={styles.typing}>
             <Typewriter
               options={{ delay: 80 }}
               onInit={(typewriter) => {
                 typewriter
-                  .typeString(`And a lot of ${masteryData[1].name}`)
+                  .typeString(`Who do you like to play?`)
+                  .pauseFor(750)
+                  .typeString(` a lot of ${masteryData[0].name} it looks like`)
                   .pauseFor(750)
                   .callFunction((t) => {
-                    setCount(2);
+                    setCount(count + 1);
                     t.elements.cursor.hidden = true;
                   })
                   .start();
@@ -221,10 +228,10 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               options={{ delay: 80 }}
               onInit={(typewriter) => {
                 typewriter
-                  .typeString(`Is this your account?`)
+                  .typeString(`And a lot of ${masteryData[1].name}`)
                   .pauseFor(750)
                   .callFunction((t) => {
-                    setCount(3);
+                    setCount(count + 1);
                     t.elements.cursor.hidden = true;
                   })
                   .start();
@@ -233,6 +240,23 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           </div>
         )}
         {count > 2 && (
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 80 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`Is this your account?`)
+                  .pauseFor(750)
+                  .callFunction((t) => {
+                    setCount(count + 1);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
+        )}
+        {count > 3 && (
           <>
             <small className={styles.typing}>
               <a
@@ -245,7 +269,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
                   setButton2("secondary");
                   setUserAccount(true);
                   setDisabled(true);
-                  setCount(4);
+                  setCount(count + 1);
                 }}
               >
                 Yes
@@ -262,7 +286,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
                   setButton2("contrast");
                   setUserAccount(false);
                   setDisabled(true);
-                  setCount(4);
+                  setCount(count + 1);
                 }}
               >
                 No
@@ -270,9 +294,9 @@ export default function Id({ summonerData, masteryData, rank, error }) {
             </small>
           </>
         )}
-        {count > 3 && isUserAccount}
-        {count > 4 && rankedInfo}
-        {count > 5 && (
+        {count > 4 && isUserAccount}
+        {count > 5 && rankedInfo}
+        {count > 6 && (
           <Link href={`/stats/${router.query.id}`}>
             <button>Go to stats</button>
           </Link>
