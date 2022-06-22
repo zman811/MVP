@@ -21,7 +21,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
         </Head>
         <h2>There was a Error finding that account, try again</h2>
         <Link href="/">
-          <a href="#" role="button">
+          <a href="#" className="outline" role="button">
             Home
           </a>
         </Link>
@@ -40,7 +40,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
       </Head>
       <div className={styles.right}>
         <Link href="/">
-          <a href="#" role="button">
+          <a href="#" className="outline" role="button">
             Home
           </a>
         </Link>
