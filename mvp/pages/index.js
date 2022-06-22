@@ -21,7 +21,6 @@ export default function Home({ freeChamps }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username);
     if (username.length < 1) {
       setNameErr(true);
     } else {
@@ -29,14 +28,16 @@ export default function Home({ freeChamps }) {
     }
   };
   return (
-    <div className="container" style={{textAlign: 'center'}}>
+    <div className="container" style={{ textAlign: "center" }}>
       <Head>
         <title>Home Page</title>
       </Head>
       <h2>
         <br />
         <details>
-          <summary style={{textAlign: 'center'}} role="button">Current Free Champs</summary>
+          <summary style={{ textAlign: "center" }} role="button">
+            Current Free Champs
+          </summary>
           <div>
             {freeChamps.map((champ, i) => (
               <a

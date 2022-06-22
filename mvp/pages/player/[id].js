@@ -135,7 +135,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
-              .typeString(`your ${rank.rank.toLowerCase()}? that's not bad`)
+              .typeString(`${rank.rank.toLowerCase()}? that's not bad`)
               .pauseFor(750)
               .callFunction((t) => {
                 setCount(count + 1);
