@@ -51,7 +51,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
           <div>
             {masteryData[0].name}
             <Image
-              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[0].name
+              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[0].imgId
                 .split(" ")
                 .join("")}.png`}
               alt={`${masteryData[0].name} Icon`}
@@ -62,7 +62,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
           <div>
             {masteryData[1].name}
             <Image
-              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[1].name
+              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[1].imgId
                 .split(" ")
                 .join("")}.png`}
               alt={`${masteryData[1].name} Icon`}
@@ -73,7 +73,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
           <div>
             {masteryData[2].name}
             <Image
-              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[2].name
+              src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[2].imgId
                 .split(" ")
                 .join("")}.png`}
               alt={`${masteryData[2].name} Icon`}
@@ -123,6 +123,7 @@ export async function getServerSideProps(context) {
         name: temp.name,
         title: temp.title,
         key: temp.key,
+        imgId: temp.imgId,
         points: Object.values(mastery.data)[i].championPoints,
       };
       masteries.push(temp2);

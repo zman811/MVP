@@ -14,9 +14,12 @@
 
 .center {
   margin: auto;
-  margin-top: 30%;
-  width: 50%;
+  width: 60%;
   text-align: center;
+}
+
+.freeChamps {
+  height: 60px;
 }
 
 .red {

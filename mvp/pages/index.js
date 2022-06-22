@@ -1,11 +1,12 @@
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useState } from "react";
 import Typewriter from "typewriter-effect";
 
-export default function Home() {
+export default function Home({ freeChamps }) {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [nameErr, setNameErr] = useState(false);
@@ -35,12 +36,33 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <h2>
+        <br/>
+        <details>
+          <summary role="button">Current Free Champs</summary>
+          {/* // TODO make this a list so that it works */}
+          <div>
+          {freeChamps.map((champ, i) => (
+            <a href="#" key={champ} style={{margin: '1px'}} data-tooltip={champ}>
+              <Image
+                src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${champ
+                  .split(" ")
+                  .join("")}.png`}
+                alt={`${champ} Icon`}
+                height={65}
+                width={65}
+              />
+            </a>
+          ))}
+          </div>
+        </details>
+      </h2>
       <h3>
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
-              .typeString("Hello!")
+              .typeString("Welcome to *need name*!")
               .pauseFor(1000)
               .callFunction((t) => {
                 t.elements.cursor.hidden = true;
@@ -51,16 +73,17 @@ export default function Home() {
         <Typewriter
           options={{
             cursor: "",
+            delay: 80,
           }}
           onInit={(typewriter) => {
             typewriter
-              .pauseFor(1200)
-              .typeString("Please enter a name below")
+              .pauseFor(3000)
+              .typeString("Please enter a username below:")
               .start();
           }}
         />
-        Welcome to league rating <br />
-        <br /> Please enter a username below:
+        {/* Welcome to league rating <br />
+        <br /> Please enter a username below: */}
       </h3>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">
@@ -94,10 +117,23 @@ export async function getStaticProps(context) {
     Object.values(champData.data.data).forEach(async (ele, i) => {
       const update = await db.findOneAndUpdate(
         { key: ele.key },
-        { name: ele.name, key: ele.key, title: ele.title },
+        { name: ele.name, key: ele.key, title: ele.title, imgId: ele.id },
         { upsert: true }
       );
     });
+    const freeChamps = await axios.get(
+      `https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${process.env.RIOTKEY}`
+    );
+    console.log(freeChamps.data.freeChampionIds);
+    let resChamps = [];
+    for (let i = 0; i < freeChamps.data.freeChampionIds.length; i++) {
+      let temp = await db.find({ key: freeChamps.data.freeChampionIds[i] });
+      resChamps.push(temp[0].imgId);
+    }
+    return {
+      props: { freeChamps: resChamps },
+      revalidate: 86400,
+    };
   } catch (err) {
     console.log(err);
   }

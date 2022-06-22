@@ -38,7 +38,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   } else if (!userAccount) {
     isUserAccount = (
       <Typewriter
-        options={{ cursor: "" }}
+        options={{ cursor: "", delay: 80 }}
         onInit={(typewriter) => {
           typewriter
             .typeString(
@@ -52,7 +52,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   } else {
     isUserAccount = (
       <Typewriter
-        options={{ cursor: "" }}
+        options={{ cursor: "", delay: 80 }}
         onInit={(typewriter) => {
           typewriter
             .typeString(`So you like to play ${masteryData[2].name} I see`)
@@ -67,7 +67,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     if (rank.rank.includes("IRON")) {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`Wow iron? must be a smurf.. right?`)
@@ -83,7 +83,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     ) {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(
@@ -101,7 +101,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     ) {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`your ${rank.rank.toLowerCase()}? that's not bad`)
@@ -113,7 +113,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     } else if (rank.rank === "GRANDMASTER" || rank.rank === "CHALLENGER") {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`A ${rank.rank.toLowerCase()}?? must be pretty good`)
@@ -143,9 +143,10 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       <br />
       {router.query.id}, {masteryData[0].title}
       <Typewriter
-        options={{ cursor: "" }}
+        options={{ cursor: "", delay: 80 }}
         onInit={(typewriter) => {
           typewriter
+            .pauseFor(1000)
             .typeString(`Who do you like to play?`)
             .pauseFor(500)
             .typeString(` a lot of ${masteryData[0].name} it looks like`)
@@ -155,7 +156,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       />
       {count > 0 && (
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`And a lot of ${masteryData[1].name}`)
@@ -166,7 +167,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       )}
       {count > 1 && (
         <Typewriter
-          options={{ cursor: "" }}
+          options={{ cursor: "", delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`Is this your account?`)
