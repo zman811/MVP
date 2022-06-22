@@ -29,7 +29,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
   }
 
   return (
-    <div className={styles.center}>
+    <div>
       <Head>
         <link
           rel="stylesheet"
@@ -37,12 +37,14 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Link href="/">
-        <a href="#" role="button">
-          Go Back
-        </a>
-      </Link>
-      <div>
+      <div className={styles.right}>
+        <Link href="/">
+          <a href="#" role="button">
+            Go Back
+          </a>
+        </Link>
+      </div>
+      <div className={styles.center}>
         <h3>
           Rank: {rank.rank.toLowerCase()} {rank.div}
         </h3>

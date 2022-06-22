@@ -42,7 +42,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         onInit={(typewriter) => {
           typewriter
             .typeString(
-              `Sure glad its not, they like to play ${masteryData[2].name}`
+              `Whoever it is, they like to play ${masteryData[2].name}`
             )
             .callFunction(() => setCount(5))
             .start();
@@ -126,7 +126,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   }
 
   return (
-    <div className={styles.center}>
+    <div>
       <Head>
         <link
           rel="stylesheet"
@@ -134,89 +134,95 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Link href="/">
-        <a href="#" role="button">
-          Go Back
-        </a>
-      </Link>
-      hello!
-      <br />
-      {router.query.id}, {masteryData[0].title}
-      <Typewriter
-        options={{ cursor: "", delay: 80 }}
-        onInit={(typewriter) => {
-          typewriter
-            .pauseFor(1000)
-            .typeString(`Who do you like to play?`)
-            .pauseFor(500)
-            .typeString(` a lot of ${masteryData[0].name} it looks like`)
-            .callFunction(() => setCount(count + 1))
-            .start();
-        }}
-      />
-      {count > 0 && (
-        <Typewriter
-          options={{ cursor: "", delay: 80 }}
-          onInit={(typewriter) => {
-            typewriter
-              .typeString(`And a lot of ${masteryData[1].name}`)
-              .callFunction(() => setCount(2))
-              .start();
-          }}
-        />
-      )}
-      {count > 1 && (
-        <Typewriter
-          options={{ cursor: "", delay: 80 }}
-          onInit={(typewriter) => {
-            typewriter
-              .typeString(`Is this your account?`)
-              .callFunction(() => setCount(3))
-              .start();
-          }}
-        />
-      )}
-      {count > 2 && (
-        <>
-          <a
-            href="#"
-            role="button"
-            className={button1}
-            disabled={disabled}
-            onClick={() => {
-              setButton1("contrast");
-              setButton2("secondary");
-              setUserAccount(true);
-              setDisabled(true);
-              setCount(4);
-            }}
-          >
-            Yes
+      <div className={styles.right}>
+        <Link href="/">
+          <a href="#" role="button">
+            Go Back
           </a>
-          <a
-            href="#"
-            role="button"
-            className={button2}
-            disabled={disabled}
-            onClick={() => {
-              setButton1("secondary");
-              setButton2("contrast");
-              setUserAccount(false);
-              setDisabled(true);
-              setCount(4);
-            }}
-          >
-            No
-          </a>
-        </>
-      )}
-      {count > 3 && isUserAccount}
-      {count > 4 && rankedInfo}
-      {count > 5 && (
-        <Link href={`/stats/${router.query.id}`}>
-          <button>Go to stats</button>
         </Link>
-      )}
+      </div>
+      <div className={styles.center}>
+        <h3>
+          {router.query.id}, {masteryData[0].title}
+        </h3>
+      </div>
+      <div className={styles.center}>
+        <Typewriter
+          options={{ cursor: "", delay: 80 }}
+          onInit={(typewriter) => {
+            typewriter
+              .pauseFor(1000)
+              .typeString(`Who do you like to play?`)
+              .pauseFor(500)
+              .typeString(` a lot of ${masteryData[0].name} it looks like`)
+              .callFunction(() => setCount(count + 1))
+              .start();
+          }}
+        />
+        {count > 0 && (
+          <Typewriter
+            options={{ cursor: "", delay: 80 }}
+            onInit={(typewriter) => {
+              typewriter
+                .typeString(`And a lot of ${masteryData[1].name}`)
+                .callFunction(() => setCount(2))
+                .start();
+            }}
+          />
+        )}
+        {count > 1 && (
+          <Typewriter
+            options={{ cursor: "", delay: 80 }}
+            onInit={(typewriter) => {
+              typewriter
+                .typeString(`Is this your account?`)
+                .callFunction(() => setCount(3))
+                .start();
+            }}
+          />
+        )}
+        {count > 2 && (
+          <>
+            <a
+              href="#"
+              role="button"
+              className={button1}
+              disabled={disabled}
+              onClick={() => {
+                setButton1("contrast");
+                setButton2("secondary");
+                setUserAccount(true);
+                setDisabled(true);
+                setCount(4);
+              }}
+            >
+              Yes
+            </a>
+            <a
+              href="#"
+              role="button"
+              className={button2}
+              disabled={disabled}
+              onClick={() => {
+                setButton1("secondary");
+                setButton2("contrast");
+                setUserAccount(false);
+                setDisabled(true);
+                setCount(4);
+              }}
+            >
+              No
+            </a>
+          </>
+        )}
+        {count > 3 && isUserAccount}
+        {count > 4 && rankedInfo}
+        {count > 5 && (
+          <Link href={`/stats/${router.query.id}`}>
+            <button>Go to stats</button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

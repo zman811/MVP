@@ -22,6 +22,12 @@
   height: 60px;
 }
 
+.right {
+  margin-top: 1em;
+  margin-right: 1em;
+  text-align: right;
+}
+
 .red {
   color: red;
 }
