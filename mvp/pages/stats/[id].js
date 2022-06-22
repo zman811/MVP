@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 import axios from "axios";
@@ -11,6 +12,9 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
   if (error) {
     return (
       <div className={styles.center}>
+        <Head>
+          <title>Error</title>
+        </Head>
         <h2>There was a Error finding that account, try again</h2>
         <Link href="/">
           <a href="#" className="outline" role="button">
@@ -23,6 +27,9 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
 
   return (
     <div>
+      <Head>
+        <title>Stats Page</title>
+      </Head>
       <div className={styles.right}>
         <Link href="/">
           <a href="#" className="outline" role="button">

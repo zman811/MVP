@@ -29,6 +29,9 @@ export default function Home({ freeChamps }) {
   };
   return (
     <div className={styles.center}>
+      <Head>
+        <title>Home Page</title>
+      </Head>
       <h2>
         <br />
         <details>
