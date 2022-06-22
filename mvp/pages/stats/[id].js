@@ -31,13 +31,6 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
 
   return (
     <div>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <div className={styles.right}>
         <Link href="/">
           <a href="#" className="outline" role="button">

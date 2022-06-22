@@ -29,13 +29,6 @@ export default function Home({ freeChamps }) {
   };
   return (
     <div className={styles.center}>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <h2>
         <br />
         <details>
