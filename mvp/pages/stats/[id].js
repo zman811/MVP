@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Typewriter from "typewriter-effect";
 
 export default function Stats({ summonerData, masteryData, rank, error }) {
+  //TODO maybe try and get the ranked icons to show on the stats page
   if (error) {
     return (
       <div className={styles.center}>
@@ -21,7 +22,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
         <h2>There was a Error finding that account, try again</h2>
         <Link href="/">
           <a href="#" role="button">
-            Go Back
+            Home
           </a>
         </Link>
       </div>
@@ -40,7 +41,7 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
       <div className={styles.right}>
         <Link href="/">
           <a href="#" role="button">
-            Go Back
+            Home
           </a>
         </Link>
       </div>

@@ -37,53 +37,61 @@ export default function Home({ freeChamps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>
-        <br/>
+        <br />
         <details>
           <summary role="button">Current Free Champs</summary>
-          {/* // TODO make this a list so that it works */}
           <div>
-          {freeChamps.map((champ, i) => (
-            <a href="#" key={champ} style={{margin: '1px'}} data-tooltip={champ}>
-              <Image
-                src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${champ
-                  .split(" ")
-                  .join("")}.png`}
-                alt={`${champ} Icon`}
-                height={65}
-                width={65}
-              />
-            </a>
-          ))}
+            {freeChamps.map((champ, i) => (
+              <a
+                href="#"
+                key={champ}
+                style={{ margin: "1px" }}
+                data-tooltip={champ}
+              >
+                <Image
+                  src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${champ
+                    .split(" ")
+                    .join("")}.png`}
+                  alt={`${champ} Icon`}
+                  height={65}
+                  width={65}
+                />
+              </a>
+            ))}
           </div>
         </details>
       </h2>
       <h3>
         <Typewriter
-          options={{ cursor: "", delay: 80 }}
+          options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString("Welcome to *need name*!")
+              .callFunction((t) => {
+                t.elements.cursor.hidden = true;
+              })
               .pauseFor(1000)
+              .start();
+          }}
+        />
+        <Typewriter
+          options={{ delay: 80 }}
+          onInit={(typewriter) => {
+            typewriter
+              .callFunction((t) => {
+                t.elements.cursor.hidden = true;
+              })
+              .pauseFor(3000)
+              .callFunction((t) => {
+                t.elements.cursor.hidden = false;
+              })
+              .typeString("Please enter a username below:")
               .callFunction((t) => {
                 t.elements.cursor.hidden = true;
               })
               .start();
           }}
         />
-        <Typewriter
-          options={{
-            cursor: "",
-            delay: 80,
-          }}
-          onInit={(typewriter) => {
-            typewriter
-              .pauseFor(3000)
-              .typeString("Please enter a username below:")
-              .start();
-          }}
-        />
-        {/* Welcome to league rating <br />
-        <br /> Please enter a username below: */}
       </h3>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">
@@ -124,7 +132,6 @@ export async function getStaticProps(context) {
     const freeChamps = await axios.get(
       `https://na1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${process.env.RIOTKEY}`
     );
-    console.log(freeChamps.data.freeChampionIds);
     let resChamps = [];
     for (let i = 0; i < freeChamps.data.freeChampionIds.length; i++) {
       let temp = await db.find({ key: freeChamps.data.freeChampionIds[i] });

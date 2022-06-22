@@ -22,6 +22,10 @@
   height: 60px;
 }
 
+.typing {
+  margin: 0.5em;
+}
+
 .right {
   margin-top: 1em;
   margin-right: 1em;

@@ -26,7 +26,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         <h2>There was a Error finding that account, try again</h2>
         <Link href="/">
           <a href="#" role="button">
-            Go Back
+            Home
           </a>
         </Link>
       </div>
@@ -38,13 +38,16 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   } else if (!userAccount) {
     isUserAccount = (
       <Typewriter
-        options={{ cursor: "", delay: 80 }}
+        options={{ delay: 80 }}
         onInit={(typewriter) => {
           typewriter
             .typeString(
               `Whoever it is, they like to play ${masteryData[2].name}`
             )
-            .callFunction(() => setCount(5))
+            .callFunction((t) => {
+              setCount(5);
+              t.elements.cursor.hidden = true;
+            })
             .start();
         }}
       />
@@ -52,11 +55,14 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   } else {
     isUserAccount = (
       <Typewriter
-        options={{ cursor: "", delay: 80 }}
+        options={{ delay: 80 }}
         onInit={(typewriter) => {
           typewriter
             .typeString(`So you like to play ${masteryData[2].name} I see`)
-            .callFunction(() => setCount(5))
+            .callFunction((t) => {
+              setCount(5);
+              t.elements.cursor.hidden = true;
+            })
             .start();
         }}
       />
@@ -64,14 +70,33 @@ export default function Id({ summonerData, masteryData, rank, error }) {
   }
   let rankedInfo = "";
   if (rank.rank) {
+    if (rank.rank === "not ranked") {
+      rankedInfo = (
+        <Typewriter
+          options={{ delay: 80 }}
+          onInit={(typewriter) => {
+            typewriter
+              .typeString(`Unranked I see`)
+              .callFunction((t) => {
+                setCount(6);
+                t.elements.cursor.hidden = true;
+              })
+              .start();
+          }}
+        />
+      );
+    }
     if (rank.rank.includes("IRON")) {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "", delay: 80 }}
+          options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`Wow iron? must be a smurf.. right?`)
-              .callFunction(() => setCount(6))
+              .callFunction((t) => {
+                setCount(6);
+                t.elements.cursor.hidden = true;
+              })
               .start();
           }}
         />
@@ -83,13 +108,16 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     ) {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "", delay: 80 }}
+          options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(
                 `I mean, ${rank.rank.toLowerCase()} is in the average right?`
               )
-              .callFunction(() => setCount(6))
+              .callFunction((t) => {
+                setCount(6);
+                t.elements.cursor.hidden = true;
+              })
               .start();
           }}
         />
@@ -101,11 +129,14 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     ) {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "", delay: 80 }}
+          options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`your ${rank.rank.toLowerCase()}? that's not bad`)
-              .callFunction(() => setCount(6))
+              .callFunction((t) => {
+                setCount(6);
+                t.elements.cursor.hidden = true;
+              })
               .start();
           }}
         />
@@ -113,11 +144,14 @@ export default function Id({ summonerData, masteryData, rank, error }) {
     } else if (rank.rank === "GRANDMASTER" || rank.rank === "CHALLENGER") {
       rankedInfo = (
         <Typewriter
-          options={{ cursor: "", delay: 80 }}
+          options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
               .typeString(`A ${rank.rank.toLowerCase()}?? must be pretty good`)
-              .callFunction(() => setCount(6))
+              .callFunction((t) => {
+                setCount(6);
+                t.elements.cursor.hidden = true;
+              })
               .start();
           }}
         />
@@ -137,7 +171,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
       <div className={styles.right}>
         <Link href="/">
           <a href="#" role="button">
-            Go Back
+            Home
           </a>
         </Link>
       </div>
@@ -147,72 +181,91 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         </h3>
       </div>
       <div className={styles.center}>
-        <Typewriter
-          options={{ cursor: "", delay: 80 }}
-          onInit={(typewriter) => {
-            typewriter
-              .pauseFor(1000)
-              .typeString(`Who do you like to play?`)
-              .pauseFor(500)
-              .typeString(` a lot of ${masteryData[0].name} it looks like`)
-              .callFunction(() => setCount(count + 1))
-              .start();
-          }}
-        />
-        {count > 0 && (
+        <div className={styles.typing}>
           <Typewriter
-            options={{ cursor: "", delay: 80 }}
+            options={{ delay: 80 }}
             onInit={(typewriter) => {
               typewriter
-                .typeString(`And a lot of ${masteryData[1].name}`)
-                .callFunction(() => setCount(2))
+                .pauseFor(1000)
+                .typeString(`Who do you like to play?`)
+                .pauseFor(500)
+                .typeString(` a lot of ${masteryData[0].name} it looks like`)
+                .callFunction((t) => {
+                  setCount(count + 1);
+                  t.elements.cursor.hidden = true;
+                })
                 .start();
             }}
           />
+        </div>
+        {count > 0 && (
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 80 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`And a lot of ${masteryData[1].name}`)
+                  .callFunction((t) => {
+                    setCount(2);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
         )}
         {count > 1 && (
-          <Typewriter
-            options={{ cursor: "", delay: 80 }}
-            onInit={(typewriter) => {
-              typewriter
-                .typeString(`Is this your account?`)
-                .callFunction(() => setCount(3))
-                .start();
-            }}
-          />
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 80 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`Is this your account?`)
+                  .callFunction((t) => {
+                    setCount(3);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
         )}
         {count > 2 && (
           <>
-            <a
-              href="#"
-              role="button"
-              className={button1}
-              disabled={disabled}
-              onClick={() => {
-                setButton1("contrast");
-                setButton2("secondary");
-                setUserAccount(true);
-                setDisabled(true);
-                setCount(4);
-              }}
-            >
-              Yes
-            </a>
-            <a
-              href="#"
-              role="button"
-              className={button2}
-              disabled={disabled}
-              onClick={() => {
-                setButton1("secondary");
-                setButton2("contrast");
-                setUserAccount(false);
-                setDisabled(true);
-                setCount(4);
-              }}
-            >
-              No
-            </a>
+            <small className={styles.typing}>
+              <a
+                href="#"
+                role="button"
+                className={button1}
+                disabled={disabled}
+                onClick={() => {
+                  setButton1("contrast");
+                  setButton2("secondary");
+                  setUserAccount(true);
+                  setDisabled(true);
+                  setCount(4);
+                }}
+              >
+                Yes
+              </a>
+            </small>
+            <small className={styles.typing}>
+              <a
+                href="#"
+                role="button"
+                className={button2}
+                disabled={disabled}
+                onClick={() => {
+                  setButton1("secondary");
+                  setButton2("contrast");
+                  setUserAccount(false);
+                  setDisabled(true);
+                  setCount(4);
+                }}
+              >
+                No
+              </a>
+            </small>
           </>
         )}
         {count > 3 && isUserAccount}
@@ -242,9 +295,8 @@ export async function getServerSideProps(context) {
     );
     let rankData;
     if (rank.data.length < 1) {
-      rankData = {};
+      rankData = { rank: "not ranked" };
     } else {
-      console.log("HERE");
       rankData = {
         rank: rank.data[0].tier,
         div: rank.data[0].rank,
