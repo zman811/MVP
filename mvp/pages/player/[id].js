@@ -118,8 +118,8 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               .typeString(
                 `I mean, ${rank.rank.toLowerCase()} is in the average `
               )
-              .pauseFor(750)
-              .changeDelay(500)
+              .pauseFor(300)
+              .changeDelay(300)
               .typeString(' right?')
               .callFunction((t) => {
                 setCount(count + 1);

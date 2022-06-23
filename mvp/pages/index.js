@@ -64,7 +64,7 @@ export default function Home({ freeChamps }) {
           options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
-              .typeString("Welcome to *need name*!")
+              .typeString("Welcome to League Stats!")
               .callFunction((t) => {
                 t.elements.cursor.hidden = true;
               })
