@@ -123,15 +123,6 @@ export default function Home({ freeChamps }) {
               }
             }}
           >
-            <label htmlFor="username">
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={handleUsername}
-                placeholder="Enter Name Here"
-              />
-            </label>
             <input type="submit" className="outline" value="Go!" />
             {nameErr && (
               <small className={styles.red}>Error with name, try again</small>
