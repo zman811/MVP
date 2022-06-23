@@ -93,8 +93,10 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
-              .typeString(`Wow iron? must be a smurf.. right?`)
+              .typeString(`Wow iron? must be a smurf.`)
               .pauseFor(750)
+              .changeDelay(500)
+              .typeString(' Right?')
               .callFunction((t) => {
                 setCount(count + 1);
                 t.elements.cursor.hidden = true;
@@ -114,9 +116,11 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           onInit={(typewriter) => {
             typewriter
               .typeString(
-                `I mean, ${rank.rank.toLowerCase()} is in the average right?`
+                `I mean, ${rank.rank.toLowerCase()} is in the average `
               )
               .pauseFor(750)
+              .changeDelay(500)
+              .typeString(' right?')
               .callFunction((t) => {
                 setCount(count + 1);
                 t.elements.cursor.hidden = true;
@@ -151,7 +155,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           options={{ delay: 80 }}
           onInit={(typewriter) => {
             typewriter
-              .typeString(`A ${rank.rank.toLowerCase()}?? must be pretty good`)
+              .typeString(`A ${rank.rank.toLowerCase()}?? Must be pretty good`)
               .pauseFor(750)
               .callFunction((t) => {
                 setCount(Count + 1);
@@ -177,7 +181,28 @@ export default function Id({ summonerData, masteryData, rank, error }) {
         </Link>
       </div>
       <div className="container" style={{ textAlign: "center" }}>
-        <h3>
+        <h2>
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 100 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`Fecthing Data on ${router.query.id}`)
+                  .changeDelay(500)
+                  .typeString(`.....`)
+                  .pauseFor(750)
+                  .callFunction((t) => {
+                    setCount(count + 1);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
+        </h2>
+      </div>
+      <h4 className="container" style={{ textAlign: "center" }}>
+        {count > 0 && (
           <div className={styles.typing}>
             <Typewriter
               options={{ delay: 80 }}
@@ -200,27 +225,6 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               }}
             />
           </div>
-        </h3>
-      </div>
-      <div className="container" style={{ textAlign: "center" }}>
-        {count > 0 && (
-          <div className={styles.typing}>
-            <Typewriter
-              options={{ delay: 80 }}
-              onInit={(typewriter) => {
-                typewriter
-                  .typeString(`Who do you like to play?`)
-                  .pauseFor(750)
-                  .typeString(` a lot of ${masteryData[0].name} it looks like`)
-                  .pauseFor(750)
-                  .callFunction((t) => {
-                    setCount(count + 1);
-                    t.elements.cursor.hidden = true;
-                  })
-                  .start();
-              }}
-            />
-          </div>
         )}
         {count > 1 && (
           <div className={styles.typing}>
@@ -228,7 +232,9 @@ export default function Id({ summonerData, masteryData, rank, error }) {
               options={{ delay: 80 }}
               onInit={(typewriter) => {
                 typewriter
-                  .typeString(`And a lot of ${masteryData[1].name}`)
+                  .typeString(`Played a lot of `)
+                  .pauseFor(750)
+                  .typeString(` ${masteryData[0].name}`)
                   .pauseFor(750)
                   .callFunction((t) => {
                     setCount(count + 1);
@@ -240,6 +246,24 @@ export default function Id({ summonerData, masteryData, rank, error }) {
           </div>
         )}
         {count > 2 && (
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 120 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .pauseFor(300)
+                  .typeString(`And ${masteryData[1].name}`)
+                  .pauseFor(750)
+                  .callFunction((t) => {
+                    setCount(count + 1);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
+        )}
+        {count > 3 && (
           <div className={styles.typing}>
             <Typewriter
               options={{ delay: 80 }}
@@ -256,7 +280,7 @@ export default function Id({ summonerData, masteryData, rank, error }) {
             />
           </div>
         )}
-        {count > 3 && (
+        {count > 4 && (
           <>
             <small className={styles.typing}>
               <a
@@ -294,14 +318,34 @@ export default function Id({ summonerData, masteryData, rank, error }) {
             </small>
           </>
         )}
-        {count > 4 && isUserAccount}
-        {count > 5 && rankedInfo}
+        {count > 5 && isUserAccount}
         {count > 6 && (
+          <div className={styles.typing}>
+            <Typewriter
+              options={{ delay: 80 }}
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString(`${router.query.id}s rank: `)
+                  .pauseFor(350)
+                  .changeDelay(600)
+                  .typeString(` ${rank.rank.toLowerCase()}`)
+                  .pauseFor(900)
+                  .callFunction((t) => {
+                    setCount(count + 1);
+                    t.elements.cursor.hidden = true;
+                  })
+                  .start();
+              }}
+            />
+          </div>
+        )}
+        {count > 7 && rankedInfo}
+        {count > 8 && (
           <Link href={`/stats/${router.query.id}`}>
             <button>Go to stats</button>
           </Link>
         )}
-      </div>
+      </h4>
     </div>
   );
 }

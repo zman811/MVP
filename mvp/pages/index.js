@@ -104,6 +104,41 @@ export default function Home({ freeChamps }) {
           <small className={styles.red}>Error with name, try again</small>
         )}
       </form>
+      <details>
+        <summary
+          style={{ textAlign: "center" }}
+          role="button"
+          className="outline"
+        >
+          Just want the stats?
+        </summary>
+        <div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (username.length < 1) {
+                setNameErr(true);
+              } else {
+                router.push(`/stats/${username}`);
+              }
+            }}
+          >
+            <label htmlFor="username">
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={handleUsername}
+                placeholder="Enter Name Here"
+              />
+            </label>
+            <input type="submit" className="outline" value="Go!" />
+            {nameErr && (
+              <small className={styles.red}>Error with name, try again</small>
+            )}
+          </form>
+        </div>
+      </details>
     </div>
   );
 }

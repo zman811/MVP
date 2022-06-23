@@ -9,6 +9,8 @@ import Typewriter from "typewriter-effect";
 
 export default function Stats({ summonerData, masteryData, rank, error }) {
   //TODO maybe try and get the ranked icons to show on the stats page
+  const router = useRouter();
+  const [count, setCount] = useState(0);
   if (error) {
     return (
       <div className={styles.center}>
@@ -38,34 +40,53 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
         </Link>
       </div>
       <div className="container" style={{ textAlign: "center" }}>
-        <h3>
-          Rank: {rank.rank.toLowerCase()} {rank.div}
-        </h3>
-        <h4>
-          Top 3 Played Champs,
-          <div>
-            {[...Array(3)].map((_, i) => (
-              <a
-                href="#"
-                key={masteryData[i].name}
-                style={{ margin: "0.4em" }}
-                data-tooltip={masteryData[i].name}
-              >
-                <Image
-                  src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[
-                    i
-                  ].imgId
-                    .split(" ")
-                    .join("")}.png`}
-                  alt={`${masteryData[i].name} Icon`}
-                  height={75}
-                  width={75}
-                />
-              </a>
-            ))}
-          </div>
-        </h4>
-        {rank.winRate && <h4>Comp win rate is {rank.winRate}%</h4>}
+        <h2>
+          <Typewriter
+            options={{ delay: 100 }}
+            onInit={(typewriter) => {
+              typewriter
+                .typeString(`Here are some stats on, ${router.query.id}`)
+                .pauseFor(1000)
+                .callFunction((t) => {
+                  setCount(1);
+                  t.elements.cursor.hidden = true;
+                })
+                .start();
+            }}
+          />
+        </h2>
+        {count > 0 && (
+          <>
+            <h3>
+              Rank: {rank.rank.toLowerCase()} {rank.div}
+              {rank.winRate && <h4>Comp win rate is {rank.winRate}%</h4>}
+            </h3>
+            <h4>
+              Top 3 Played Champs,
+              <div>
+                {[...Array(3)].map((_, i) => (
+                  <a
+                    href="#"
+                    key={masteryData[i].name}
+                    style={{ margin: "0.4em" }}
+                    data-tooltip={masteryData[i].name}
+                  >
+                    <Image
+                      src={`http://ddragon.leagueoflegends.com/cdn/12.11.1/img/champion/${masteryData[
+                        i
+                      ].imgId
+                        .split(" ")
+                        .join("")}.png`}
+                      alt={`${masteryData[i].name} Icon`}
+                      height={75}
+                      width={75}
+                    />
+                  </a>
+                ))}
+              </div>
+            </h4>
+          </>
+        )}
       </div>
     </div>
   );
@@ -111,7 +132,6 @@ export async function getServerSideProps(context) {
       };
       masteries.push(temp2);
     }
-    // TODO make the request and pass it in as props, also i think i will query the database for champs here ? and pass that in as props or some form of it
     return {
       props: { summonerData: data, masteryData: masteries, rank: rankData },
     };
