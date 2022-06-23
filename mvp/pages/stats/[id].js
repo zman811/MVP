@@ -7,7 +7,13 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Typewriter from "typewriter-effect";
 
-export default function Stats({ summonerData, masteryData, rank, error }) {
+export default function Stats({
+  summonerData,
+  masteryData,
+  rank,
+  error,
+  game,
+}) {
   //TODO maybe try and get the ranked icons to show on the stats page
   const router = useRouter();
   const [count, setCount] = useState(0);
@@ -25,6 +31,10 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
         </Link>
       </div>
     );
+  }
+  let gameWin = "won";
+  if (game.win === false) {
+    gameWin = "lost";
   }
 
   return (
@@ -62,9 +72,9 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
               {rank.winRate && <h4>Comp win rate is {rank.winRate}%</h4>}
             </h3>
             <h4>
-              Top 3 Played Champs,
+              Top 5 Most Played Champs,
               <div>
-                {[...Array(3)].map((_, i) => (
+                {[...Array(5)].map((_, i) => (
                   <a
                     href="#"
                     key={masteryData[i].name}
@@ -85,6 +95,21 @@ export default function Stats({ summonerData, masteryData, rank, error }) {
                 ))}
               </div>
             </h4>
+            <hgroup>
+              <h3>In the last game,</h3>
+              <h4>
+                {router.query.id} played as {game.champ},{" "}
+                {game.lane.toLowerCase()} and {gameWin}
+              </h4>
+              <h4>They died {game.deaths} times</h4>
+              <h4>And Purchased {game.itemsPurchased} items</h4>
+              <h4>They used {game.ability} abilities</h4>
+              {game.lane !== 'JUNGLE' && <h4> Took {game.turretPlates} Turret Plates</h4>}
+              {game.skillShots > 7 && (
+                <h4>And hit {game.skillShots} skill shots</h4>
+              )}
+              <h4></h4>
+            </hgroup>
           </>
         )}
       </div>
@@ -105,6 +130,29 @@ export async function getServerSideProps(context) {
     const rank = await axios.get(
       `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${data.id}?api_key=${process.env.RIOTKEY}`
     );
+    const matches = await axios.get(
+      `https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/${data.puuid}/ids?start=0&count=1&api_key=${process.env.RIOTKEY}`
+    );
+    const lastMatch = await axios.get(
+      `https://americas.api.riotgames.com/lol/match/v5/matches/${matches.data[0]}?api_key=${process.env.RIOTKEY}`
+    );
+    let userData;
+    console.log(lastMatch.data.info.participants[0]);
+    for (let i = 0; i < lastMatch.data.info.participants.length; i++) {
+      if (lastMatch.data.info.participants[i].puuid === data.puuid) {
+        userData = {
+          lane: lastMatch.data.info.participants[i].individualPosition,
+          deaths: lastMatch.data.info.participants[i].deaths,
+          champ: lastMatch.data.info.participants[i].championName,
+          itemsPurchased: lastMatch.data.info.participants[i].itemsPurchased,
+          win: lastMatch.data.info.participants[i].win,
+          ability: lastMatch.data.info.participants[i].challenges.abilityUses,
+          turretPlates: lastMatch.data.info.participants[i].challenges.turretPlatesTaken,
+          skillShots:
+            lastMatch.data.info.participants[i].challenges.skillshotsHit,
+        };
+      }
+    }
     let rankData;
     if (rank.data.length < 1) {
       rankData = { rank: "not ranked" };
@@ -119,7 +167,7 @@ export async function getServerSideProps(context) {
       };
     }
     let masteries = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       let [temp] = await db.find({
         key: Object.values(mastery.data)[i].championId,
       });
@@ -133,7 +181,12 @@ export async function getServerSideProps(context) {
       masteries.push(temp2);
     }
     return {
-      props: { summonerData: data, masteryData: masteries, rank: rankData },
+      props: {
+        summonerData: data,
+        masteryData: masteries,
+        rank: rankData,
+        game: userData,
+      },
     };
   } catch (err) {
     console.log(err);
